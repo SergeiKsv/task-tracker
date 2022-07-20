@@ -1,12 +1,17 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { Login } from "./components/Login/Login.jsx";
 
-function App() {
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+export default function App() {
   return (
     <div className="App">
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+         
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
-
-export default App;
