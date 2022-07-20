@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+//TODO: вынести в отдельный файл
 const Wrapper = styled.div`
   height: 100vh;
   display: flex;
