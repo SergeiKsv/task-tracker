@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import React from "react";
 
 //TODO: вынести в отдельный файл
 const Wrapper = styled.div`
@@ -38,7 +39,7 @@ const RegisterGoogle = styled.button`
   color: white;
 `;
 
-export const Register = () => {
+export const Register:React.FC = () => {
     return (
         <Wrapper>
             <RegisterContainer>
