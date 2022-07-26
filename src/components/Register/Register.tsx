@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import React from "react";
 
 //TODO: вынести в отдельный файл
 const Wrapper = styled.div`
