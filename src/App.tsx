@@ -4,19 +4,19 @@ import { Register } from "./components/Register/Register";
 import { Reset } from "./components/Reset/Reset";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import React from "react";
 
-
-export const App:React.FC=()=>{
+export const App: React.FC = (props: any) => {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/reset" element={<Reset/>}/>
+          <Route path="/reset" element={<Reset />} />
         </Routes>
       </BrowserRouter>
     </div>
   );
-}
+};
