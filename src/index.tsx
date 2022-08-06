@@ -3,12 +3,14 @@ import "./index.css";
 import { App } from "./App";
 import  authReducer  from "./redux/reducers/authReducer";
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
+
 
 
 const store = configureStore({
     reducer:authReducer
-});
+},
+);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

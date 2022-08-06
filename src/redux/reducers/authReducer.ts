@@ -6,7 +6,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut} from "firebase/auth";
+  signOut,
+  User} from "firebase/auth";
   
   import {
   getFirestore,query,
@@ -15,6 +16,7 @@ import {
   where,
   addDoc,} from "firebase/firestore";
   import { initializeApp } from "firebase/app";
+import userEvent from "@testing-library/user-event";
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -35,7 +37,7 @@ import {
 
 const initState = {};
 
-  const signWithGoogle=createAsyncThunk('signInGoogle',async ()=>{
+ export  const signWithGoogle=createAsyncThunk('signInGoogle',async ()=>{
     try {
       const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
@@ -49,25 +51,23 @@ const initState = {};
           email: user.email,
         });
       }
+      return user;
     } catch (err:any) {
       console.error(err);
       alert(err.message);
     }
-  });
+  }
+  );
 
  const authReducer = createSlice({
   name:'auth',
   initialState:initState,
   reducers:{},
   extraReducers:(builder)=>{
-    builder.addCase(signWithGoogle.fulfilled,()=>{
-        
+    builder.addCase(signWithGoogle.fulfilled,(state,action)=>{
+       console.log("s")
     })
   },
 });
-
-
-
-export const { } = authReducer.actions
 
 export default authReducer.reducer

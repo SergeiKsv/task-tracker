@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { signWithGoogle } from "../../redux/reducers/authReducer";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../..";
 
 //TODO: вынести в отдельный файл
 const Wrapper = styled.div`
@@ -39,13 +42,18 @@ const LoginGoogle = styled.button`
 `;
 
 export const Login:React.FC = () => {
+  const dispatch=useDispatch<AppDispatch>();
+  const handleClick=()=>{
+    dispatch(signWithGoogle());
+  }
+
   return (
     <Wrapper>
       <LoginContainer>
         <LoginInput placeholder="E-mail address" />
         <LoginInput placeholder="Password" />
         <LoginButton>Login</LoginButton>
-        <LoginGoogle>Login with Google</LoginGoogle>
+        <LoginGoogle onClick={handleClick}>Login with Google</LoginGoogle>
         <div>
           <Link to="/reset">Forgot Password</Link>
         </div>
