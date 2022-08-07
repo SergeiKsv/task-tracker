@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut} from "firebase/auth";
+  signOut,} from "firebase/auth";
   
   import {
   getFirestore,query,
@@ -15,7 +15,6 @@ import {
   where,
   addDoc,} from "firebase/firestore";
   import { initializeApp } from "firebase/app";
-import userEvent from "@testing-library/user-event";
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -27,13 +26,7 @@ import userEvent from "@testing-library/user-event";
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
   }
-  
-  interface UserInfo{
-    fullname:string
-    name:string,
-    email:string,
-    uid:string
-  }
+
 
   const firebaseApp=initializeApp(firebaseConfig);
   const auth=getAuth();
@@ -41,10 +34,15 @@ import userEvent from "@testing-library/user-event";
   
   const googleProvider=new GoogleAuthProvider();
 
+interface UserInfo{
+  displayName: string|null|undefined,
+  email:string|null|undefined,
+  uid:string|undefined
+}
+
 const initState:UserInfo = {
-  fullname: "",
-  name: "",
-  email: "",
+  displayName: null,
+  email: null,
   uid: ""
 };
 
@@ -54,6 +52,11 @@ const initState:UserInfo = {
       const user = res.user;
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
       const docs = await getDocs(q);
+      const userData:UserInfo={
+        displayName: user.displayName,
+        email: user.email,
+        uid: user.uid
+      }
       if (docs.docs.length === 0) {
         await addDoc(collection(db, "users"), {
           uid: user.uid,
@@ -62,7 +65,7 @@ const initState:UserInfo = {
           email: user.email,
         });
       }
-      return user;
+      return userData;
     } catch (err:any) {
       console.error(err);
       alert(err.message);
@@ -94,10 +97,14 @@ const initState:UserInfo = {
   reducers:{},
   extraReducers:(builder)=>{
     builder.addCase(signWithGoogle.fulfilled,(state,action)=>{
-       console.log("s")
+      state.email=action.payload?.email
+      state.displayName=action.payload?.displayName
+      state.uid=action.payload?.uid
     })
     builder.addCase(registerWithEmailAndPassword.fulfilled,(state,action)=>{
-    
+      state.email=action.payload?.email
+      state.displayName=action.payload?.displayName
+      state.uid=action.payload?.uid
     })
   },
 });
