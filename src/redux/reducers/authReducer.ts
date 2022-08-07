@@ -6,8 +6,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut,
-  User} from "firebase/auth";
+  signOut} from "firebase/auth";
   
   import {
   getFirestore,query,
@@ -29,13 +28,25 @@ import userEvent from "@testing-library/user-event";
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
   }
   
+  interface UserInfo{
+    fullname:string
+    name:string,
+    email:string,
+    uid:string
+  }
+
   const firebaseApp=initializeApp(firebaseConfig);
   const auth=getAuth();
   const db=getFirestore(firebaseApp);
   
   const googleProvider=new GoogleAuthProvider();
 
-const initState = {};
+const initState:UserInfo = {
+  fullname: "",
+  name: "",
+  email: "",
+  uid: ""
+};
 
  export  const signWithGoogle=createAsyncThunk('signInGoogle',async ()=>{
     try {
@@ -59,6 +70,24 @@ const initState = {};
   }
   );
 
+ export const registerWithEmailAndPassword =createAsyncThunk("registerEmailPAssword", async(userData:any) => {
+    try {
+      const {name,email,password}=userData;
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const user = res.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name:name,
+        authProvider: "local",
+        email:email
+      });
+      return user;
+    } catch (err:any) {
+      console.error(err);
+      alert(err.message);
+    }
+  });
+
  const authReducer = createSlice({
   name:'auth',
   initialState:initState,
@@ -66,6 +95,9 @@ const initState = {};
   extraReducers:(builder)=>{
     builder.addCase(signWithGoogle.fulfilled,(state,action)=>{
        console.log("s")
+    })
+    builder.addCase(registerWithEmailAndPassword.fulfilled,(state,action)=>{
+    
     })
   },
 });

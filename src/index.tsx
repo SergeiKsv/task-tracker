@@ -3,7 +3,7 @@ import "./index.css";
 import { App } from "./App";
 import  authReducer  from "./redux/reducers/authReducer";
 import { Provider } from "react-redux";
-import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
 
 
