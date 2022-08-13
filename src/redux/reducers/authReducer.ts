@@ -35,14 +35,14 @@ import {
   const googleProvider=new GoogleAuthProvider();
 
 interface UserInfo{
-  displayName: string|null|undefined,
-  email:string|null|undefined,
-  uid:string|undefined
+  displayName?: string|null,
+  email?:string|null,
+  uid?:string
 }
 
 const initState:UserInfo = {
-  displayName: null,
-  email: null,
+  displayName: "",
+  email: "",
   uid: ""
 };
 
